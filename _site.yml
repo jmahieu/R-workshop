@@ -6,6 +6,8 @@ navbar:
       href: index.html
     - text: "Getting Started"
       href: getting-started.html
-     
+
+output:
+  html_document:     
 theme: jekyll-theme-cayman
    
