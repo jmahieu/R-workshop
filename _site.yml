@@ -5,6 +5,8 @@ navbar:
     - text: "Home"
       href: index.Rmd
       
+   - text: "Getting Started"
+     href: getting-started.Rmd
      
-  theme: jekyll-theme-cayman
+theme: jekyll-theme-cayman
    
