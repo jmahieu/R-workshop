@@ -1,16 +1,12 @@
 ---
-title: "`R` Workshop"
-author: ''
-date: ''
-output:
-  html_document:
-    df_print: paged
+title: "Getting Started in `R`"
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-setwd("C:/Users/jeroe/Dropbox/VU teaching/Quantitative Research Methods/2021-2022/R/")
 ```
+
 *This document shows the different steps you need to take to get started with `R`. Please follow them carefully* **before** *coming to class. I presume that you have everything installed and understand everything explained here by the start of the workshop as I will not spend any time on this during class. Note that this workshop will focus on the tools to get you started with your research, not on a comprehensive overview of all the possibilities of the software. When you understand these basics, you can learn at your own pace through a process of trial and error when you work with your own data, similar to learning a new language. Therefore it is important that you read the "Getting help" section as typically most of your problems can be resolved through a simple online search. *
 
 

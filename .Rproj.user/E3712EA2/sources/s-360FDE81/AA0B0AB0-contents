@@ -1,8 +1,0 @@
-name: "R Workshop"
-navbar:
-  title: "R Workshop"
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "Getting Started"
-      href: about.html
