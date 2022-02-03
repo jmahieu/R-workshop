@@ -1,0 +1,10 @@
+name: "R Workshop"
+navbar:
+  title: "R Workshop"
+  left:
+    - text: "Home"
+      href: index.Rmd
+      
+     
+  theme: jekyll-theme-cayman
+   
