@@ -6,6 +6,8 @@ navbar:
       href: index.html
     - text: "Getting Started"
       href: getting-started.html
+    - text: "Session 1: Cleaning, Summarizing, and Visualizing Data"
+      href: session1.html
 
 output:  
   html_document:  
