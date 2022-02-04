@@ -1,0 +1,47 @@
+---
+title: "Cleaning, Summarizing, and Visualizing Data"
+date: "Updated `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    self_contained: yes
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: yes
+      countIncrementalSlides: no
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE) 
+knitr::opts_chunk$set(echo = FALSE, dev.args = list(png = list(type = "cairo")), warning = FALSE, message = FALSE, fig.width = 8, fig.height = 6)
+library(tidyverse)
+library(stargazer)
+theme_metro <- function(x) {
+  theme_classic() + 
+  theme(panel.background = element_rect(color = '#FAFAFA',fill='#FAFAFA'),
+        plot.background = element_rect(color = '#FAFAFA',fill='#FAFAFA'),
+        text = element_text(size = 16),
+        axis.title.x = element_text(hjust = 1),
+        axis.title.y = element_text(hjust = 1, angle = 0))
+}
+theme_metro_regtitle <- function(x) {
+  theme_classic() + 
+  theme(panel.background = element_rect(color = '#FAFAFA',fill='#FAFAFA'),
+        plot.background = element_rect(color = '#FAFAFA',fill='#FAFAFA'),
+        text = element_text(size = 16))
+}
+```
+
+# Cleaning Data 
+
+* Econometrics is about `data` 
+
+* According a to [2014 NYTimes article](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html), "data scientists [...] spend from ***50 percent to 80 percent of their time*** mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets."
+
+* In the next two lectures you will learn the basics of ***cleaning (tidying)***, ***visualising*** and ***summarising*** data
+

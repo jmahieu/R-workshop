@@ -37,7 +37,7 @@ theme_metro_regtitle <- function(x) {
 }
 ```
 
-# Working With Data
+# Cleaning Data 
 
 * Econometrics is about `data` 
 

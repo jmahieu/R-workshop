@@ -8,9 +8,11 @@ theme: cosmo
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Materials
 
 
-## 0. Preparation
+
+## Preparation
 Download the "Red Wine Quality" Data [here](https://www.dropbox.com/s/manj9wjuqd4j1zf/winequality-red.csv?dl=0) and save it in a local folder. This is the data we are going to use in the sessions.
 
 Install the **tidyverse** and **stargazer** packages by typing the following code in the `RStudio` Console: 
