@@ -9,11 +9,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Materials
+Slides 
+
+[session1_exercises.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session1_exercises.R) (Right click + "Save as")
+
+[session1_solutions.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session_1_solutions.R) (Right click + "Save as") Only look at these after doing the exercises
+
 [`dplyr` cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
 
 
 ## Preparation
-Download the "Red Wine Quality" Data [here](https://www.dropbox.com/s/x7hr7a786no4x14/winequality-red.csv?dl=1) and save it in a local folder. This is the data we are going to use in the sessions. For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
+Download the "Red Wine Quality" Data [here](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/winequality-red.csv) and save it in a local folder (Right click + "Save as"). This is the data we are going to use in the sessions. For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
 
 Install the **tidyverse** and **stargazer** packages by typing the following code in the `RStudio` Console: 
 ```{r, eval = FALSE}
