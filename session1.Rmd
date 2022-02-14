@@ -9,7 +9,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Materials
-Slides 
+
+| Slides | [HTML](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.html) | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.pdf) | 
+
 
 [session1_exercises.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session1_exercises.R) (Right click + "Save as")
 
