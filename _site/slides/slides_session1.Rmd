@@ -1,5 +1,8 @@
 ---
 title: "Cleaning, Summarizing, and Visualizing Data"
+author: 
+- Jeroen Mahieu 
+- jeroen.mahieu@vu.nl
 date: "Updated `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -18,7 +21,7 @@ output:
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE) 
-knitr::opts_chunk$set(echo = FALSE, dev.args = list(png = list(type = "cairo")), warning = FALSE, message = FALSE, fig.width = 8, fig.height = 6)
+knitr::opts_chunk$set(echo = FALSE, dev.args = list(png = list(type = "cairo")), warning = FALSE, message = FALSE,  fig.align = "center", fig.width = 8, fig.height = 6)
 library(tidyverse)
 library(stargazer)
 theme_metro <- function(x) {
@@ -37,11 +40,39 @@ theme_metro_regtitle <- function(x) {
 }
 ```
 
-# Cleaning Data 
+# The Data Science Pipeline
 
-* Econometrics is about `data` 
+* Quantitative Research is about numeric `data` 
+
+```{r, echo = F, out.width = "400px"}
+knitr::include_graphics("C:/Users/jeroe/Dropbox/VU teaching/R-workshop/_site/images/data-science-pipeline.png")
+```
+
+---
+
+# Cleaning (Tidying) Data
 
 * According a to [2014 NYTimes article](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html), "data scientists [...] spend from ***50 percent to 80 percent of their time*** mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets."
 
-* In the next two lectures you will learn the basics of ***cleaning (tidying)***, ***visualising*** and ***summarising*** data
+* Luckily we have some powerful tools to help us out. 
+
+* Here, we will focus on [`dplyr`](https://dplyr.tidyverse.org) which is part of the [`tidyverse`](https://www.tidyverse.org)
+
+* (When you work with large datasets (+100k rows with many columns) learn to use [`data.table`](https://github.com/Rdatatable/data.table/wiki) which is much faster but has more difficult syntax)
+
+---
+
+# `dplyr` Overview
+
+* You are ***highly encouraged*** to read through [Hadley Wickham's chapter](https://r4ds.had.co.nz/transform.html). It's clear and concise.
+
+
+* Also check out this great "cheatsheet" [here](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
+
+
+* The package is organized around a set of **verbs**, i.e. *actions* to be taken.
+
+
+* We operate on `data.frames` or `tibbles` (*nicer looking* data.frames.)
+
 

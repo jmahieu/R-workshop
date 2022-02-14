@@ -1,0 +1,51 @@
+# This is the script with the task instructions for session 1 of the R Workshop
+
+# Only run the line of code below if you have not yet installed the tidyverse and
+# stargazer packages (remove the '#' in front to be able to run the code )
+# install.packages(c("tidyverse", "stargazer"))
+
+# load the necessary packages
+library(tidyverse)
+library(stargazer)
+
+# load the wine quality data as a dataframe called 'wine'
+wine <- read_csv("data/winequality-red.csv") #replace '...' with the location of the csv file!
+wine <- as_tibble(wine) # convert to a tibble
+
+# Task 1: Data Wrangling
+
+# 1. Which wines have a `quality` of 3 or 6?
+
+wine %>% 
+  filter(quality == 3 | quality == 6)
+
+# 2. Create a new variable called `hi_sugar` which is `TRUE` if `residual sugar >= 2 `.
+# Save the new dataset again as 'wine'
+
+wine <- wine %>% 
+  mutate(hi_sugar = (`residual sugar` >= 2))
+
+# 3. Calculate the mean chlorides and maximum density by `hi_sugar` group. Use `mean()` and `max()`
+
+wine %>% 
+  group_by(hi_sugar) %>% 
+  summarise(mean(chlorides), 
+            max(density))
+
+# Task 2: Summary Statistics
+
+# 1. Calculate the number of number of observations (N), the mean,
+# and standard deviation for all wines with a pH `<=` 3.2
+
+wine_low_ph <- wine %>% 
+  filter(pH <= 3.2)
+
+library(stargazer)
+
+wine_low_ph <- as.data.frame(wine_low_ph)
+
+stargazer(wine_low_ph, 
+          type = 'html', 
+          out = 'wine_low_ph_summary.html', 
+          title= 'Descriptive Statistics Low pH Wines', 
+          summary.stat = c("N", "mean", "sd"))
