@@ -10,7 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Materials
 
-| Slides | [HTML](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.html) | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.pdf) | 
+ Slides | [HTML](https://www.dropbox.com/s/mvitmdmo5rnjbil/slides_session1.html?dl=0) | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.pdf)
+ 
+
+[Data](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/winequality-red.csv) (Right click + "Save as")
 
 
 [session1_exercises.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session1_exercises.R) (Right click + "Save as")
@@ -21,7 +24,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ## Preparation
-Download the "Red Wine Quality" Data [here](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/winequality-red.csv) and save it in a local folder (Right click + "Save as"). This is the data we are going to use in the sessions. For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
+Download the "Red Wine Quality" Data and save it in a local folder (Right click + "Save as"). This is the data we are going to use in the sessions. For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
+
+Also download the session1_exercises.R file and save it in the same folder on your computer.
 
 Install the **tidyverse** and **stargazer** packages by typing the following code in the `RStudio` Console: 
 ```{r, eval = FALSE}
@@ -30,3 +35,9 @@ install.packages("stargazer")
 #you could do this also in one line of code:
 #install.packages(c("tidyverse", "stargazer"))
 ```
+
+
+## References
+[R for Data Science - Data Transformation](https://r4ds.had.co.nz/transform.html)
+
+[R for Data Science - Data Visualization](https://r4ds.had.co.nz/data-visualisation.html)

@@ -49,3 +49,13 @@ stargazer(wine_low_ph,
           out = 'wine_low_ph_summary.html', 
           title= 'Descriptive Statistics Low pH Wines', 
           summary.stat = c("N", "mean", "sd"))
+
+# Task 3: Visualising Data 
+
+# 1. Make a scatter plot with `residual sugar` on the x-axis and `alcohol` on 
+# the y-axis. Title the graph "Residual sugar by alcohol percentage"
+
+ggplot(data=wine) + 
+       geom_point(mapping = aes(x = `residual sugar`, 
+                                y = alcohol)) +
+         labs(title = 'Residual sugar by alcohol percentage')
