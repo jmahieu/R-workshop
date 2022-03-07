@@ -159,13 +159,13 @@ str(wine)
 filter()
 ```
 
-*Example:* Which wines have at least a alchohol percentage of 10?
+*Example:* Which wines have at least an alchohol percentage of 10?
 
 ---
 
 # `filter`
 
-*Example:* Which wines have at least a alchohol percentage of 10?
+*Example:* Which wines have at least an alchohol percentage of 10?
 
 ```{r, eval=FALSE}
 wine %>%

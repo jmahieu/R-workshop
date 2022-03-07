@@ -1,961 +1,390 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
-  <head>
-    <title>Cleaning, Summarizing, and Visualizing Data</title>
-    <meta charset="utf-8" />
-    <meta name="author" content="Jeroen Mahieu" />
-    <meta name="author" content="jeroen.mahieu@vu.nl" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
-    <link href="libs/remark-css/rladies-fonts.css" rel="stylesheet" />
-    <link href="libs/countdown/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown/countdown.js"></script>
-  </head>
-  <body>
-    <textarea id="source">
-class: center, middle, inverse, title-slide
 
-# Cleaning, Summarizing, and Visualizing Data
-### Jeroen Mahieu
-### <a href="mailto:jeroen.mahieu@vu.nl" class="email">jeroen.mahieu@vu.nl</a>
-### Updated 2022-02-14
-
----
-
-
-
-
-
-# The Data Science Pipeline
-
-* Quantitative Research is about numeric `data` 
-
-&lt;img src="images/data-science-pipeline.png" width="400px" style="display: block; margin: auto;" /&gt;
-
----
-
-# Cleaning (Tidying) Data
-
-* According a to [2014 NYTimes article](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html), "data scientists [...] spend from ***50 percent to 80 percent of their time*** mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets."
-
-* Luckily we have some powerful tools to help us out. 
-
-* Here, we will focus on [`dplyr`](https://dplyr.tidyverse.org) which is part of the [`tidyverse`](https://www.tidyverse.org)
-
-* (When you work with large datasets (+100k rows with many columns) learn to use [`data.table`](https://github.com/Rdatatable/data.table/wiki) which is much faster but has more difficult syntax)
-
----
-
-# `dplyr` Overview
-
-* You are ***highly encouraged*** to read through [Hadley Wickham's chapter](https://r4ds.had.co.nz/transform.html). It's clear and concise.
-
-
-* Also check out this great "cheatsheet" [here](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
-
-
-* The package is organized around a set of **verbs**, i.e. *actions* to be taken.
-
-
-* We operate on `data.frames` or `tibbles` (*nicer looking* data.frames.)
-
-* All *verbs* work as follows:
-
-`$$\text{verb}(\underbrace{\text{data.frame}}_{\text{1st argument}}, \underbrace{\text{what to do}}_\text{2nd argument})$$`
-
-
-* Alternatively you can (should) use the `pipe` operator `%&gt;%`:
-
-`$$\underbrace{\text{data.frame}}_{\text{1st argument}} \underbrace{\text{ %&gt;% }}_{\text{``pipe" operator}} \text{verb}(\underbrace{\text{what to do}}_\text{2nd argument})$$`
-
----
-
-# Main `dplyr` Verbs
-
-`filter()`: Choose observations based on a certain condition (i.e. subset)
-
-
-`arrange()`: Reorder rows 
-
-
-`select()`: Select variables by name
-
-
-`mutate()`: Create new variables out of existing ones
-
-
-`summarise()`: Collapse data to a single summary
-
-
-`group_by()`: All the above can be used in conjunction with `group_by()` to use function on groups rather than entire data
-
----
-
-# Data: Red Wine Quality 
-
-
-This dataset contains information about Portuguese "Vinho Verde" wine ([more details](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub) | [download link](https://www.dropbox.com/s/x7hr7a786no4x14/winequality-red.csv?dl=0)). Each row represents one wine sample.
-
-
-```r
-library(tidyverse)
-wine &lt;- read_csv("data/winequality-red.csv") #import data as dataframe "wine"
-head(wine[,1:6]) # show first 6 lines of first 6 variables
-```
-
-```
-## # A tibble: 6 x 6
-##   `fixed acidity` `volatile acidity` `citric acid` `residual sugar` chlorides `free sulfur dioxide`
-##             &lt;dbl&gt;              &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;     &lt;dbl&gt;                 &lt;dbl&gt;
-## 1             7.4               0.7           0                 1.9     0.076                    11
-## 2             7.8               0.88          0                 2.6     0.098                    25
-## 3             7.8               0.76          0.04              2.3     0.092                    15
-## 4            11.2               0.28          0.56              1.9     0.075                    17
-## 5             7.4               0.7           0                 1.9     0.076                    11
-## 6             7.4               0.66          0                 1.8     0.075                    13
-```
-
----
-
-# Data: Red Wine Quality
-
-
-What variables does this dataset contain?
-
-
-```r
-str(wine)
-```
-
-```
-## spec_tbl_df [1,599 x 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
-##  $ fixed acidity       : num [1:1599] 7.4 7.8 7.8 11.2 7.4 7.4 7.9 7.3 7.8 7.5 ...
-##  $ volatile acidity    : num [1:1599] 0.7 0.88 0.76 0.28 0.7 0.66 0.6 0.65 0.58 0.5 ...
-##  $ citric acid         : num [1:1599] 0 0 0.04 0.56 0 0 0.06 0 0.02 0.36 ...
-##  $ residual sugar      : num [1:1599] 1.9 2.6 2.3 1.9 1.9 1.8 1.6 1.2 2 6.1 ...
-##  $ chlorides           : num [1:1599] 0.076 0.098 0.092 0.075 0.076 0.075 0.069 0.065 0.073 0.071 ...
-##  $ free sulfur dioxide : num [1:1599] 11 25 15 17 11 13 15 15 9 17 ...
-##  $ total sulfur dioxide: num [1:1599] 34 67 54 60 34 40 59 21 18 102 ...
-##  $ density             : num [1:1599] 0.998 0.997 0.997 0.998 0.998 ...
-##  $ pH                  : num [1:1599] 3.51 3.2 3.26 3.16 3.51 3.51 3.3 3.39 3.36 3.35 ...
-##  $ sulphates           : num [1:1599] 0.56 0.68 0.65 0.58 0.56 0.56 0.46 0.47 0.57 0.8 ...
-##  $ alcohol             : num [1:1599] 9.4 9.8 9.8 9.8 9.4 9.4 9.4 10 9.5 10.5 ...
-##  $ quality             : num [1:1599] 5 5 5 6 5 5 5 7 7 5 ...
-##  - attr(*, "spec")=
-##   .. cols(
-##   ..   `fixed acidity` = col_double(),
-##   ..   `volatile acidity` = col_double(),
-##   ..   `citric acid` = col_double(),
-##   ..   `residual sugar` = col_double(),
-##   ..   chlorides = col_double(),
-##   ..   `free sulfur dioxide` = col_double(),
-##   ..   `total sulfur dioxide` = col_double(),
-##   ..   density = col_double(),
-##   ..   pH = col_double(),
-##   ..   sulphates = col_double(),
-##   ..   alcohol = col_double(),
-##   ..   quality = col_double()
-##   .. )
-##  - attr(*, "problems")=&lt;externalptr&gt;
-```
-
----
-
-# Filtering observations
-
-```r
-filter()
-```
-
-*Example:* Which wines have at least a alchohol percentage of 10?
-
----
-
-# `filter`
-
-*Example:* Which wines have at least a alchohol percentage of 10?
-
-
-
-
-```r
-wine %&gt;%
-  filter(alcohol &gt; 10)
-```
-
-```
-## # A tibble: 852 x 12
-##    `fixed acidity` `volatile acidity` `citric acid` `residual sugar` chlorides `free sulfur d~` `total sulfur ~` density    pH sulphates alcohol quality
-##              &lt;dbl&gt;              &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1             7.5              0.5            0.36              6.1     0.071               17              102   0.998  3.35      0.8     10.5       5
-##  2             7.5              0.5            0.36              6.1     0.071               17              102   0.998  3.35      0.8     10.5       5
-##  3             8.5              0.28           0.56              1.8     0.092               35              103   0.997  3.3       0.75    10.5       7
-##  4             6.7              0.675          0.07              2.4     0.089               17               82   0.996  3.35      0.54    10.1       5
-##  5             6.9              0.685          0                 2.5     0.105               22               37   0.997  3.46      0.57    10.6       6
-##  6             7.8              0.6            0.14              2.4     0.086                3               15   0.998  3.42      0.6     10.8       6
-##  7             7.3              0.45           0.36              5.9     0.074               12               87   0.998  3.33      0.83    10.5       5
-##  8             7.3              0.45           0.36              5.9     0.074               12               87   0.998  3.33      0.83    10.5       5
-##  9             7.5              0.49           0.2               2.6     0.332                8               14   0.997  3.21      0.9     10.5       6
-## 10             8.1              0.66           0.22              2.2     0.069                9               23   0.997  3.3       1.2     10.3       5
-## # ... with 842 more rows
-```
-
----
-
-# Operators
-
-Standard comparison operators:
-
-- `&gt;` : greater than,
-- `&lt;` : smaller than,
-- `&gt;=` : greater than or equal to,
-- `&lt;=` : smaller than or equal to,
-- `!=` : not equal to,
-- `==` : equal to.
-
-Logical operators:
-1. `x &amp; y`: `x` **and** `y`
-1. `x | y`: `x` **or** `y`
-1. `!y`: **not** `y`
-
-
----
-
-`R` has the convenient `x %in% y` operator (conversely `!x %in% y`), `TRUE` if `x` is *a member of* `y`.
-
-```r
-3 %in% 1:3
-```
-
-```
-## [1] TRUE
-```
-
-```r
-c(2,5) %in% 2:10  # also vectorized
-```
-
-```
-## [1] TRUE TRUE
-```
-
-```r
-c("V","Uni") %in% c("Vrije","Universiteit")  # also strings
-```
-
-```
-## [1] FALSE FALSE
-```
-
----
-
-# `filter` with a logical operator
-
-*Example:* Which wines have at least an alchohol percentage of 10 ***and*** a quality score `&lt;` 6?
-
----
-
-# `filter` with a logical operator
-
-*Example:* Which wines have at least an alchohol percentage of 10 ***and*** a quality score `&lt;` 6?
-
-
-
-
-```r
-wine %&gt;%
-  filter(alcohol &gt; 10 &amp; quality &lt; 6)
-```
-
-```
-## # A tibble: 235 x 12
-##    `fixed acidity` `volatile acidity` `citric acid` `residual sugar` chlorides `free sulfur d~` `total sulfur ~` density    pH sulphates alcohol quality
-##              &lt;dbl&gt;              &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1             7.5              0.5            0.36             6.1      0.071               17              102   0.998  3.35      0.8     10.5       5
-##  2             7.5              0.5            0.36             6.1      0.071               17              102   0.998  3.35      0.8     10.5       5
-##  3             6.7              0.675          0.07             2.4      0.089               17               82   0.996  3.35      0.54    10.1       5
-##  4             7.3              0.45           0.36             5.9      0.074               12               87   0.998  3.33      0.83    10.5       5
-##  5             7.3              0.45           0.36             5.9      0.074               12               87   0.998  3.33      0.83    10.5       5
-##  6             8.1              0.66           0.22             2.2      0.069                9               23   0.997  3.3       1.2     10.3       5
-##  7             4.6              0.52           0.15             2.1      0.054                8               65   0.993  3.9       0.56    13.1       4
-##  8             7.2              0.725          0.05             4.65     0.086                4               11   0.996  3.41      0.39    10.9       5
-##  9             7.2              0.725          0.05             4.65     0.086                4               11   0.996  3.41      0.39    10.9       5
-## 10             6.6              0.705          0.07             1.6      0.076                6               15   0.996  3.44      0.58    10.7       5
-## # ... with 225 more rows
-```
-
----
-
-# Creating new variables
-
-```r
-mutate()
-```
-
-*Example:* What is the total acidity, defined as  `fixed acidity` + `volatile acidity` ?
-
-🚨 Note the use of ` `` ` when you refer to a variable consisting of two or more words. This is quite confusing for inexperienced users. Therefore it is good practice to use one-word variable names (e.g., `fixed_acidity` instead of `fixed acidity`)
-
----
-# `mutate`
-
-*Example:* What is the total acidity, defined as  `fixed acidity` + `volatile acidity` ? Save the new dataset as  `wine2` 
-
-
-```r
-wine2 &lt;- wine  %&gt;%
-  mutate(`total acidity`= `fixed acidity` + `volatile acidity`)
-
-print(wine2[, c('fixed acidity', 'volatile acidity', 'total acidity')])
-```
-
-```
-## # A tibble: 1,599 x 3
-##    `fixed acidity` `volatile acidity` `total acidity`
-##              &lt;dbl&gt;              &lt;dbl&gt;           &lt;dbl&gt;
-##  1             7.4               0.7             8.1 
-##  2             7.8               0.88            8.68
-##  3             7.8               0.76            8.56
-##  4            11.2               0.28           11.5 
-##  5             7.4               0.7             8.1 
-##  6             7.4               0.66            8.06
-##  7             7.9               0.6             8.5 
-##  8             7.3               0.65            7.95
-##  9             7.8               0.58            8.38
-## 10             7.5               0.5             8   
-## # ... with 1,589 more rows
-```
-
----
-
-# `mutate`
-
-*Example:* Create a new logical variable `low_alcohol` which is `TRUE` if the alcohol percentage `&lt;=` 10
-
----
-
-# `mutate`
-
-*Example:* Create a new logical variable `low_alcohol` which is `TRUE` if the alcohol percentage `&lt;=` 10. Save the new dataset as  `wine2` 
-
-
-```r
-wine2 &lt;- wine  %&gt;%
-  mutate(low_alcohol = (alcohol &lt;= 10))
-
-print(wine2[, c("alcohol", 'low_alcohol')])
-```
-
-```
-## # A tibble: 1,599 x 2
-##    alcohol low_alcohol
-##      &lt;dbl&gt; &lt;lgl&gt;      
-##  1     9.4 TRUE       
-##  2     9.8 TRUE       
-##  3     9.8 TRUE       
-##  4     9.8 TRUE       
-##  5     9.4 TRUE       
-##  6     9.4 TRUE       
-##  7     9.4 TRUE       
-##  8    10   TRUE       
-##  9     9.5 TRUE       
-## 10    10.5 FALSE      
-## # ... with 1,589 more rows
-```
-
----
-
-# Summarising variables
-
-```r
-summarise()
-```
-
-*Example:* What is the mean  `fixed acidity` ?
-
----
-
-# `summarise`
-
-*Example:* What is the mean  `fixed acidity` ?
-
-
-```r
-wine  %&gt;%
-  summarise(`mean acidity`= mean(`fixed acidity`))
-```
-
-```
-## # A tibble: 1 x 1
-##   `mean acidity`
-##            &lt;dbl&gt;
-## 1           8.32
-```
-
----
-
-# Summarising variables by group
-
-```r
-group_by()
-summarise()
-```
-
-*Example:* What is the median  `fixed acidity` per `quality` score?
-
----
-
-# `summarise` with `group_by`
-
-*Example:* What is the median  `fixed acidity` per `quality` score?
-
-
-
-```r
-wine  %&gt;%
-  group_by(quality) %&gt;%
-    summarise(`median acidity`= median(`fixed acidity`))
-```
-
-```
-## # A tibble: 6 x 2
-##   quality `median acidity`
-##     &lt;dbl&gt;            &lt;dbl&gt;
-## 1       3             7.5 
-## 2       4             7.5 
-## 3       5             7.8 
-## 4       6             7.9 
-## 5       7             8.8 
-## 6       8             8.25
-```
-
----
-
-# Chaining 🔗 Commands Together
-
-Works for all `dplyr` verbs:
-
-
-```r
-wine  %&gt;%
-  mutate(`total acidity`= `fixed acidity` + `volatile acidity`) %&gt;% 
-  filter(`total acidity` &gt; 8)
-```
-
-```
-## # A tibble: 1,024 x 13
-##    `fixed acidity` `volatile acidity` `citric acid` `residual sugar` chlorides `free sulfur d~` `total sulfur ~` density    pH sulphates alcohol quality
-##              &lt;dbl&gt;              &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1             7.4               0.7           0                 1.9     0.076               11               34   0.998  3.51      0.56     9.4       5
-##  2             7.8               0.88          0                 2.6     0.098               25               67   0.997  3.2       0.68     9.8       5
-##  3             7.8               0.76          0.04              2.3     0.092               15               54   0.997  3.26      0.65     9.8       5
-##  4            11.2               0.28          0.56              1.9     0.075               17               60   0.998  3.16      0.58     9.8       6
-##  5             7.4               0.7           0                 1.9     0.076               11               34   0.998  3.51      0.56     9.4       5
-##  6             7.4               0.66          0                 1.8     0.075               13               40   0.998  3.51      0.56     9.4       5
-##  7             7.9               0.6           0.06              1.6     0.069               15               59   0.996  3.3       0.46     9.4       5
-##  8             7.8               0.58          0.02              2       0.073                9               18   0.997  3.36      0.57     9.5       7
-##  9             7.8               0.61          0.29              1.6     0.114                9               29   0.997  3.26      1.56     9.1       5
-## 10             8.9               0.62          0.18              3.8     0.176               52              145   0.999  3.16      0.88     9.2       5
-## # ... with 1,014 more rows, and 1 more variable: `total acidity` &lt;dbl&gt;
-```
-
----
-
-# Chaining 🔗  Commands Together
-
-Works for all `dplyr` verbs:
-
-
-```r
-wine3 &lt;- wine  %&gt;%
-            mutate(`total acidity`= `fixed acidity` + `volatile acidity`, 
-                    alcohol_hi = alcohol &gt; 10) 
-print(wine3[, c('fixed acidity', 'volatile acidity', 'alcohol', 'total acidity', 'alcohol_hi')])
-```
-
-```
-## # A tibble: 1,599 x 5
-##    `fixed acidity` `volatile acidity` alcohol `total acidity` alcohol_hi
-##              &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;           &lt;dbl&gt; &lt;lgl&gt;     
-##  1             7.4               0.7      9.4            8.1  FALSE     
-##  2             7.8               0.88     9.8            8.68 FALSE     
-##  3             7.8               0.76     9.8            8.56 FALSE     
-##  4            11.2               0.28     9.8           11.5  FALSE     
-##  5             7.4               0.7      9.4            8.1  FALSE     
-##  6             7.4               0.66     9.4            8.06 FALSE     
-##  7             7.9               0.6      9.4            8.5  FALSE     
-##  8             7.3               0.65    10              7.95 FALSE     
-##  9             7.8               0.58     9.5            8.38 FALSE     
-## 10             7.5               0.5     10.5            8    TRUE      
-## # ... with 1,589 more rows
-```
-
----
-
-# Missing Values: `NA`
-
-* Whenever a value is *missing*, we code it as `NA`.
-    
-    ```r
-    x &lt;- NA
-    ```
-* `R` propagates `NA` through operations:
-    
-    ```r
-    NA &gt; 5
-    ```
-    
-    ```
-    ## [1] NA
-    ```
-    
-    ```r
-    NA + 10
-    ```
-    
-    ```
-    ## [1] NA
-    ```
-* `is.na(x)` function returns `TRUE` if `x` is an `NA`.
-    
-    ```r
-    is.na(x)
-    ```
-    
-    ```
-    ## [1] TRUE
-    ```
-
----
-
-# Task 1: Data wrangling
-
-<div class="countdown" id="timer_620a9150" style="top:0;right:0;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-Open the `session1_exercises.R` script
-
-1. Which wines have a `quality` of 3 or 6?
-
-2. Create a new variable called `hi_sugar` which is `TRUE` if `residual sugar &gt;= 2 `. Save the new dataset again as 'wine'
-
-3. Calculate the mean chlorides and maximum density by `hi_sugar` group. Use `mean()` and `max()`
-
----
-
-# Summary statistics with `stargazer` 
-
-The [`stargazer`](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf) package creates well-formatted summary statistics and regression tables with very little effort in multiple formats.
-
-Using the output table as text (`.txt`) gives a quick view of results. Printing the output table as `.html`, produces tables that can be simply copy-pasted in a Word document.
-
-🚨 `stargazer` works only with `data.frames` not with `tibbles` (I know...). So you have to make sure that your data is in `data.frame` format first
-
-
-
----
-
-# Summary statistics with `stargazer` 
-
-.pull-left[
-
-```r
-library(stargazer)
-wine &lt;- as.data.frame(wine)
-
-stargazer(wine, 
-          type = 'text')
-```
-]
-
-.pull-right[
-
-```
-## 
-## =========================================================================
-## Statistic              N    Mean  St. Dev.  Min  Pctl(25) Pctl(75)  Max  
-## -------------------------------------------------------------------------
-## fixed acidity        1,599 8.320   1.741   4.600  7.100    9.200   15.900
-## volatile acidity     1,599 0.528   0.179   0.120  0.390    0.640   1.580 
-## citric acid          1,599 0.271   0.195     0     0.1      0.4      1   
-## residual sugar       1,599 2.539   1.410   0.900  1.900    2.600   15.500
-## chlorides            1,599 0.087   0.047   0.012  0.070    0.090   0.611 
-## free sulfur dioxide  1,599 15.875  10.460    1      7        21      72  
-## total sulfur dioxide 1,599 46.468  32.895    6      22       62     289  
-## density              1,599 0.997   0.002   0.990  0.996    0.998   1.004 
-## pH                   1,599 3.311   0.154   2.740  3.210    3.400   4.010 
-## sulphates            1,599 0.658   0.170   0.330  0.550    0.730   2.000 
-## alcohol              1,599 10.423  1.066   8.400  9.500    11.100  14.900
-## quality              1,599 5.636   0.808     3      5        6       8   
-## -------------------------------------------------------------------------
-```
-]
-
-
----
-
-&lt;style type="text/css"&gt;
-    .pull-left {
-      float: left;
-      width: 60%;
-    }
-
-    .pull-right {
-      float: right;
-     width: 40%;
-   }
-
-   .pull-right ~ p {
-    clear: both;
-   }
-&lt;/style&gt;
-
-# Summary statistics with `stargazer` 
-
-.pull-left[
-
-```r
-library(stargazer)
-wine &lt;- as.data.frame(wine)
-
-stargazer(wine, 
-          type = 'html', 
-          out='wine_summary.html', 
-          title= 'Descriptive Statistics')
-```
-]
-
-.pull-right[ 
-
-&lt;img src="images/wine-summary.jpg" width="400px" style="display: block; margin: auto;" /&gt;
-
-]
-
----
-
-# Summary statistics with `stargazer`, selected statistics
-
-.pull-left[
-
-```r
-library(stargazer)
-wine &lt;- as.data.frame(wine)
-
-stargazer(wine, 
-          type = 'html', 
-          out='wine_summary1.html', 
-          title= 'Descriptive Statistics', 
-          summary.stat = c("mean", "median", "min", "max"))
-```
-]
-
-.pull-right[ 
-
-&lt;img src="images/wine-summary1.jpg" width="400px" style="display: block; margin: auto;" /&gt;
-
-]
-
----
-
-# Summary statistics with `stargazer`, by group 
-
-Although there are other ways, an easy way to obtain statistics by group is to first create a new subset dataframe with `filter()`
-
-.pull-left[
-
-```r
-wine_hi_alcohol &lt;- wine %&gt;% 
-  filter(alcohol &gt; 10)
-  
-library(stargazer)
-wine_hi_alcohol &lt;- as.data.frame(wine_hi_alcohol)
-
-stargazer(wine_hi_alcohol, 
-          type = 'html', 
-          out='wine_hi_alcohol-summary.html', 
-          title= 'Descriptive Statistics High Alcohol Wines')
-```
-]
-
-.pull-right[ 
-
-&lt;img src="images/wine_hi_alcohol-summary.jpg" width="400px" style="display: block; margin: auto;" /&gt;
-
-]
-
----
-
-# Task 2: Summary Statistics
-
-<div class="countdown" id="timer_620a92b7" style="top:0;right:0;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-Open the `session1_exercises.R` script
-
-1. Calculate the number of number of observations (N), the mean, and standard deviation for all wines with a pH `&lt;=` 3.2
-
----
-
-# Visualising data with `ggplot2`
-
-One of the strengths of `R` is its ability to create elegant graphs of your data with little effort. 
-
-We will use `ggplot2` one of the core members of the `tidyverse`. I recommend reading the [chapter](https://r4ds.had.co.nz/data-visualisation.html) of Hadley Wickham's book to learn more
-
-The basic syntax of `ggplot2` looks like this: 
-
-
-```r
-ggplot(data = &lt;DATA&gt;)+
-  &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;))
-```
-
-the geom function is the type of layer you want to add (scatter, line, ...)
-
-the mapping argument defines how variables in your dataset are mapped to visual properties. It is always combined with `aes()`
-
----
-
-# Making a scatterplot with `ggplot2`
-
-.pull-left[
-
-```r
-ggplot(data=wine)+
-  geom_point(mapping=aes(x = `fixed acidity`, 
-                         y = sulphates))
-```
-]
-
-.pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-29-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Making a scatterplot with `ggplot2`
-
-.pull-left[
-
-```r
-ggplot(data=wine)+
-  geom_point(mapping=aes(x = `fixed acidity`, 
-                         y = sulphates, 
-                         color = quality))
-```
-]
-
-.pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-31-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Making a scatterplot with `ggplot2`
-
-.pull-left[
-
-```r
-ggplot(data=wine)+
-  geom_point(mapping=aes(x = `fixed acidity`, 
-                         y = sulphates, 
-                         alpha = quality))
-```
-]
-
-.pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-33-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Making a barplot with `ggplot2`
-
-.pull-left[
-
-```r
-ggplot(data=wine)+
-  geom_bar(mapping=aes(x = quality))
-```
-]
-
-.pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-35-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Making a barplot with `ggplot2`
-
-.pull-left[
-
-```r
-ggplot(data=wine)+
-  geom_bar(mapping=aes(x = quality), 
-           fill = 'blue)
-```
-]
-
-.pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-37-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Making a barplot with `ggplot2`
-
-.pull-left[
-
-```r
-ggplot(data=wine)+
-  geom_bar(mapping=aes(x = quality), 
-           fill = 'blue') +
-  labs(title = 'Wine Quality levels',
-       x = 'Quality', 
-       y = 'Number')
-```
-]
-
-.pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-39-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Task 3: Visualising Data
-
-<div class="countdown" id="timer_620a9468" style="top:0;right:0;" data-warnwhen="0">
-<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-Open the `session1_exercises.R` script
-
-1. Make a scatter plot with `residual sugar` on the x-axis and `alcohol` on the y-axis. Title the graph "Residual sugar by alcohol percentage"
-
-    </textarea>
-<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
-<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create({
-"highlightStyle": "github",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9"
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jeroen Mahieu" />
+<meta name="author" content="jeroen.mahieu@vu.nl" />
+
+
+<title>Cleaning, Summarizing, and Visualizing Data</title>
+
+<script src="site_libs/header-attrs/header-attrs.js"></script>
+<script src="site_libs/jquery/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation/tabsets.js"></script>
+<link href="site_libs/highlightjs/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs/highlight.js"></script>
+<link href="site_libs/countdown/countdown.css" rel="stylesheet" />
+<script src="site_libs/countdown/countdown.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
-if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
-  window.dispatchEvent(new Event('resize'));
-});
-(function(d) {
-  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
-  if (!r) return;
-  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
-  d.head.appendChild(s);
-})(document);
+</script>
 
-(function(d) {
-  var el = d.getElementsByClassName("remark-slides-area");
-  if (!el) return;
-  var slide, slides = slideshow.getSlides(), els = el[0].children;
-  for (var i = 1; i < slides.length; i++) {
-    slide = slides[i];
-    if (slide.properties.continued === "true" || slide.properties.count === "false") {
-      els[i - 1].className += ' has-continuation';
-    }
-  }
-  var s = d.createElement("style");
-  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
-  d.head.appendChild(s);
-})(document);
-// delete the temporary CSS (for displaying all slides initially) when the user
-// starts to view slides
-(function() {
-  var deleted = false;
-  slideshow.on('beforeShowSlide', function(slide) {
-    if (deleted) return;
-    var sheets = document.styleSheets, node;
-    for (var i = 0; i < sheets.length; i++) {
-      node = sheets[i].ownerNode;
-      if (node.dataset["target"] !== "print-only") continue;
-      node.parentNode.removeChild(node);
-    }
-    deleted = true;
-  });
-})();
-(function() {
-  "use strict"
-  // Replace <script> tags in slides area to make them executable
-  var scripts = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container script'
-  );
-  if (!scripts.length) return;
-  for (var i = 0; i < scripts.length; i++) {
-    var s = document.createElement('script');
-    var code = document.createTextNode(scripts[i].textContent);
-    s.appendChild(code);
-    var scriptAttrs = scripts[i].attributes;
-    for (var j = 0; j < scriptAttrs.length; j++) {
-      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
-    }
-    scripts[i].parentElement.replaceChild(s, scripts[i]);
-  }
-})();
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-// adds .remark-code-has-line-highlighted class to <pre> parent elements
-// of code chunks containing highlighted lines with class .remark-code-line-highlighted
-(function(d) {
-  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
-  const preParents = [];
-  const findPreParent = function(line, p = 0) {
-    if (p > 1) return null; // traverse up no further than grandparent
-    const el = line.parentElement;
-    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
-  };
+<!-- tabsets -->
 
-  for (let line of hlines) {
-    let pre = findPreParent(line);
-    if (pre && !preParents.includes(pre)) preParents.push(pre);
-  }
-  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
-})(document);</script>
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Workshop</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="getting-started.html">Getting Started</a>
+</li>
+<li>
+  <a href="session1.html">Session 1: Cleaning, Summarizing, and Visualizing Data</a>
+</li>
+<li>
+  <a href="faq.html">FAQ</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Cleaning, Summarizing, and Visualizing
+Data</h1>
+<h4 class="author">Jeroen Mahieu</h4>
+<h4 class="author"><a href="mailto:jeroen.mahieu@vu.nl"
+class="email">jeroen.mahieu@vu.nl</a></h4>
+<h4 class="date">Updated 2022-03-07</h4>
+
+</div>
+
+
+<div id="the-data-science-pipeline" class="section level1">
+<h1>The Data Science Pipeline</h1>
+<ul>
+<li>Quantitative Research is about numeric <code>data</code></li>
+</ul>
+<p><img src="images/data-science-pipeline.png" width="400px" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="cleaning-tidying-data" class="section level1">
+<h1>Cleaning (Tidying) Data</h1>
+<ul>
+<li><p>According a to <a
+href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">2014
+NYTimes article</a>, “data scientists […] spend from <strong><em>50
+percent to 80 percent of their time</em></strong> mired in this more
+mundane labor of collecting and preparing unruly digital data, before it
+can be explored for useful nuggets.”</p></li>
+<li><p>Luckily we have some powerful tools to help us out.</p></li>
+<li><p>Here, we will focus on <a
+href="https://dplyr.tidyverse.org"><code>dplyr</code></a> which is part
+of the <a
+href="https://www.tidyverse.org"><code>tidyverse</code></a></p></li>
+<li><p>(When you work with large datasets (+100k rows with many columns)
+learn to use <a
+href="https://github.com/Rdatatable/data.table/wiki"><code>data.table</code></a>
+which is much faster but has more difficult syntax)</p></li>
+</ul>
+<hr />
+</div>
+<div id="dplyr-overview" class="section level1">
+<h1><code>dplyr</code> Overview</h1>
+<ul>
+<li><p>You are <strong><em>highly encouraged</em></strong> to read
+through <a href="https://r4ds.had.co.nz/transform.html">Hadley Wickham’s
+chapter</a>. It’s clear and concise.</p></li>
+<li><p>Also check out this great “cheatsheet” <a
+href="https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf">here</a>.</p></li>
+<li><p>The package is organized around a set of <strong>verbs</strong>,
+i.e. <em>actions</em> to be taken.</p></li>
+<li><p>We operate on <code>data.frames</code> or <code>tibbles</code>
+(<em>nicer looking</em> data.frames.)</p></li>
+<li><p>All <em>verbs</em> work as follows:</p></li>
+</ul>
+<p><span
+class="math display">\[\text{verb}(\underbrace{\text{data.frame}}_{\text{1st
+argument}}, \underbrace{\text{what to do}}_\text{2nd
+argument})\]</span></p>
+<ul>
+<li>Alternatively you can (should) use the <code>pipe</code> operator
+<code>%&gt;%</code>:</li>
+</ul>
+<p><span
+class="math display">\[\underbrace{\text{data.frame}}_{\text{1st
+argument}} \underbrace{\text{ %&gt;% }}_{\text{``pipe&quot; operator}}
+\text{verb}(\underbrace{\text{what to do}}_\text{2nd
+argument})\]</span></p>
+</div>
+
+
+
+
+</div>
 
 <script>
-slideshow._releaseMath = function(el) {
-  var i, text, code, codes = el.getElementsByTagName('code');
-  for (i = 0; i < codes.length;) {
-    code = codes[i];
-    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
-      text = code.textContent;
-      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
-          /^\$\$(.|\s)+\$\$$/.test(text) ||
-          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
-        code.outerHTML = code.innerHTML;  // remove <code></code>
-        continue;
-      }
-    }
-    i++;
-  }
-};
-slideshow._releaseMath(document);
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
-(function () {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
-  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
-    script.src  = script.src.replace(/^https?:/, '');
-  document.getElementsByTagName('head')[0].appendChild(script);
-})();
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
 </script>
-  </body>
+
+</body>
 </html>
