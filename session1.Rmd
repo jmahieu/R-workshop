@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Materials
 
- Slides | [HTML](https://www.dropbox.com/s/mvitmdmo5rnjbil/slides_session1.html?dl=0) | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.pdf)
+ Slides | [HTML](https://jmahieu.github.io/R-workshop/slides_session1.html) | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session1.pdf)
  
 
 [Data](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/winequality-red.csv) (Right click + "Save as")
