@@ -295,7 +295,7 @@ mutate()
 
 *Example:* What is the total acidity, defined as  `fixed acidity` + `volatile acidity` ?
 
-🚨 Note the use of ` `` ` when you refer to a variable consisting of two or more words. This is quite confusing for inexperienced users. Therefore it is good practice to use one-word variable names (e.g., `fixed_acidity`)
+🚨 Note the use of ` `` ` when you refer to a variable consisting of two or more words. This is quite confusing for inexperienced users. Therefore it is good practice to use one-word variable names (e.g., `fixed_acidity` instead of `fixed acidity`)
 
 ---
 # `mutate`
@@ -531,7 +531,7 @@ print(wine3[, c('fixed acidity', 'volatile acidity', 'alcohol', 'total acidity',
 
 # Task 1: Data wrangling
 
-<div class="countdown" id="timer_620a79ed" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_620a9150" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -547,7 +547,7 @@ Open the `session1_exercises.R` script
 
 # Summary statistics with `stargazer` 
 
-The [`stargazer`](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf) package creates well-formattedy summary statistics and regression tables with very little effort in multiple formats.
+The [`stargazer`](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf) package creates well-formatted summary statistics and regression tables with very little effort in multiple formats.
 
 Using the output table as text (`.txt`) gives a quick view of results. Printing the output table as `.html`, produces tables that can be simply copy-pasted in a Word document.
 
@@ -556,22 +556,6 @@ Using the output table as text (`.txt`) gives a quick view of results. Printing 
 
 
 ---
-
-&lt;style type="text/css"&gt;
-    .pull-left {
-      float: left;
-      width: 30%;
-    }
-
-    .pull-right {
-      float: right;
-     width: 70%;
-   }
-
-   .pull-right ~ p {
-    clear: both;
-   }
-&lt;/style&gt;
 
 # Summary statistics with `stargazer` 
 
@@ -586,8 +570,7 @@ stargazer(wine,
 ```
 ]
 
-.pull-right[ 
-
+.pull-right[
 
 ```
 ## 
@@ -608,8 +591,8 @@ stargazer(wine,
 ## quality              1,599 5.636   0.808     3      5        6       8   
 ## -------------------------------------------------------------------------
 ```
-
 ]
+
 
 ---
 
@@ -706,7 +689,7 @@ stargazer(wine_hi_alcohol,
 
 # Task 2: Summary Statistics
 
-<div class="countdown" id="timer_620a793f" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_620a92b7" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -748,7 +731,7 @@ ggplot(data=wine)+
 ]
 
 .pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-31-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="slides_session1_files/figure-html/unnamed-chunk-29-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -766,7 +749,7 @@ ggplot(data=wine)+
 ]
 
 .pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-33-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="slides_session1_files/figure-html/unnamed-chunk-31-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -784,7 +767,7 @@ ggplot(data=wine)+
 ]
 
 .pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-35-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="slides_session1_files/figure-html/unnamed-chunk-33-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -800,7 +783,7 @@ ggplot(data=wine)+
 ]
 
 .pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-37-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="slides_session1_files/figure-html/unnamed-chunk-35-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -817,7 +800,7 @@ ggplot(data=wine)+
 ]
 
 .pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-39-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="slides_session1_files/figure-html/unnamed-chunk-37-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -837,14 +820,14 @@ ggplot(data=wine)+
 ]
 
 .pull-right[
-&lt;img src="slides_session1_files/figure-html/unnamed-chunk-41-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="slides_session1_files/figure-html/unnamed-chunk-39-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
 # Task 3: Visualising Data
 
-<div class="countdown" id="timer_620a77a9" style="top:0;right:0;" data-warnwhen="0">
+<div class="countdown" id="timer_620a9468" style="top:0;right:0;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 

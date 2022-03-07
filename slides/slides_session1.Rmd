@@ -237,7 +237,7 @@ mutate()
 
 *Example:* What is the total acidity, defined as  `fixed acidity` + `volatile acidity` ?
 
-`r emoji("rotating_light")` Note the use of ` `` ` when you refer to a variable consisting of two or more words. This is quite confusing for inexperienced users. Therefore it is good practice to use one-word variable names (e.g., `fixed_acidity`)
+`r emoji("rotating_light")` Note the use of ` `` ` when you refer to a variable consisting of two or more words. This is quite confusing for inexperienced users. Therefore it is good practice to use one-word variable names (e.g., `fixed_acidity` instead of `fixed acidity`)
 
 ---
 # `mutate`
@@ -378,7 +378,7 @@ Open the `session1_exercises.R` script
 
 # Summary statistics with `stargazer` 
 
-The [`stargazer`](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf) package creates well-formattedy summary statistics and regression tables with very little effort in multiple formats.
+The [`stargazer`](https://cran.r-project.org/web/packages/stargazer/stargazer.pdf) package creates well-formatted summary statistics and regression tables with very little effort in multiple formats.
 
 Using the output table as text (`.txt`) gives a quick view of results. Printing the output table as `.html`, produces tables that can be simply copy-pasted in a Word document.
 
@@ -387,22 +387,6 @@ Using the output table as text (`.txt`) gives a quick view of results. Printing 
 
 
 ---
-
-``` {css, echo =F} 
-    .pull-left {
-      float: left;
-      width: 30%;
-    }
-
-    .pull-right {
-      float: right;
-     width: 70%;
-   }
-
-   .pull-right ~ p {
-    clear: both;
-   }
-```
 
 # Summary statistics with `stargazer` 
 
@@ -417,9 +401,8 @@ stargazer(wine,
 ```
 ]
 
-.pull-right[ 
-
-```{r, echo = FALSE, eval = TRUE}
+.pull-right[
+```{r, echo = FALSE, eval = TRUE, out.width="70%"}
   
 library(stargazer)
 wine <- as.data.frame(wine)
@@ -427,8 +410,8 @@ wine <- as.data.frame(wine)
 stargazer(wine, 
           type = 'text')
 ```
-
 ]
+
 
 ---
 
@@ -465,7 +448,7 @@ stargazer(wine,
 
 .pull-right[ 
 
-```{r, echo = F, out.width = "400px"}
+```{r, echo = FALSE, out.width = "400px"}
 knitr::include_graphics("images/wine-summary.jpg")
 ```
 

@@ -13,7 +13,7 @@
 
 <title>R Workshop</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -232,7 +236,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -249,6 +253,9 @@ $(document).ready(function () {
 </li>
 <li>
   <a href="session1.html">Session 1: Cleaning, Summarizing, and Visualizing Data</a>
+</li>
+<li>
+  <a href="faq.html">FAQ</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -269,8 +276,14 @@ Vrije Universiteit Amsterdam<br>
 </div>
 
 
-<p>Welcome! On this website you can find all the materials for the R Workshop sessions. Make sure that you have carefully followed all the steps on the “Getting Started” page before coming to session 1, else you will not be able to do anything. Preparation steps for each session can be found on their respective pages under “Preparation”.</p>
-<p>If you have any questions, please reach out to <a href="mailto:jeroen.mahieu@vu.nl" class="email">jeroen.mahieu@vu.nl</a></p>
+<p>Welcome! On this website you can find all the materials for the R
+Workshop sessions. Make sure that you have carefully followed all the
+steps on the “Getting Started” page before coming to session 1, else you
+will not be able to do anything. Preparation steps for each session can
+be found on their respective pages under “Preparation”.</p>
+<p>If you have any questions, please reach out to <a
+href="mailto:jeroen.mahieu@vu.nl"
+class="email">jeroen.mahieu@vu.nl</a></p>
 
 
 

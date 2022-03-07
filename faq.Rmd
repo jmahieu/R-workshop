@@ -1,0 +1,11 @@
+---
+title: "FAQ"
+---
+
+### Can I open data saved in SPSS format (.sav or .por) in `R`?
+Absolutely! In fact, `R` is able to load data that are saved in many formats (for example, .csv, .xls, .dta). To load data in SPSS format just run the following lines of code: 
+
+```{r, eval = FALSE}
+library(haven) #this loads the haven package
+my_data <- read_spss("<location of the data file>") #this loads in the data as the dataframe "my_data"
+```
