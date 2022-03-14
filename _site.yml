@@ -8,7 +8,8 @@ navbar:
       href: getting-started.html
     - text: "Session 1: Cleaning, Summarizing, and Visualizing Data"
       href: session1.html
-    - text: "Session 2: Linear Regression"
+    - text: "Session 2: Regression"
+      href: session2.html
     - text: "FAQ"
       href: faq.html
       

@@ -57,7 +57,7 @@ print("Jeroen")
 
 To install a package, use the `install.packages()` function. Think of this as buying a recipe book from the store, bringing it home, and putting it on your shelf (i.e., into your library).
 
-The packages we will use to import, clean, and visualize data are all part of the so-called **tidyverse**. The packages in the tidyvesre share a common philosophy of data and `R` programming, and are designed to work together. You can install the complete tidyverse with a single line of code:
+The packages we will use to import, clean, and visualize data are all part of the so-called **tidyverse**. The packages in the tidyverse share a common philosophy of data and `R` programming, and are designed to work together. You can install the complete tidyverse with a single line of code:
 
 ```{r, eval = FALSE}
 install.packages("tidyverse")
@@ -117,7 +117,7 @@ Note that the variable `x` is a **numeric** variable, the variable `y` is a **ch
 
 Luckily, you don't have to type in data by hand like we did in the example. By far the most common approach is to create a data frame by importing data from an external file. To do this, you’ll need to have your data correctly formatted and saved in a file format that `R` is able to recognise. Fortunately for us, `R` is able to recognise a wide variety of file formats, although in reality you’ll probably end up only using two or three regularly.
 
-Suppose you have a dataset called "mtcars" with information about different car types stored as a csv file on your computer. Opening the file in Excel would look like this: 
+As an example, we will use a dataset called "mtcars" with information about different car types. You can download the data in csv format [here](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/mtcars.csv) (Right click + "Save as"). Make sure that you save it as a csv file (with .csv as extension) and not as a text file (.txt)! Opening the file in Excel would look like this: 
 
 ```{r, fig.cap="mtcars data",fig.align='center',out.width="50%",echo=FALSE}
 knitr::include_graphics("images/mtcars.jpg")

@@ -255,6 +255,9 @@ $(document).ready(function () {
   <a href="session1.html">Session 1: Cleaning, Summarizing, and Visualizing Data</a>
 </li>
 <li>
+  <a href="session2.html">Session 2: Regression</a>
+</li>
+<li>
   <a href="faq.html">FAQ</a>
 </li>
       </ul>
@@ -382,7 +385,7 @@ function. Think of this as buying a recipe book from the store, bringing
 it home, and putting it on your shelf (i.e., into your library).</p>
 <p>The packages we will use to import, clean, and visualize data are all
 part of the so-called <strong>tidyverse</strong>. The packages in the
-tidyvesre share a common philosophy of data and <code>R</code>
+tidyverse share a common philosophy of data and <code>R</code>
 programming, and are designed to work together. You can install the
 complete tidyverse with a single line of code:</p>
 <pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
@@ -481,9 +484,12 @@ your data correctly formatted and saved in a file format that
 <code>R</code> is able to recognise. Fortunately for us, <code>R</code>
 is able to recognise a wide variety of file formats, although in reality
 you’ll probably end up only using two or three regularly.</p>
-<p>Suppose you have a dataset called “mtcars” with information about
-different car types stored as a csv file on your computer. Opening the
-file in Excel would look like this:</p>
+<p>As an example, we will use a dataset called “mtcars” with information
+about different car types. You can download the data in csv format <a
+href="https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/mtcars.csv">here</a>
+(Right click + “Save as”). Make sure that you save it as a csv file
+(with .csv as extension) and not as a text file (.txt)! Opening the file
+in Excel would look like this:</p>
 <div class="figure" style="text-align: center">
 <img src="images/mtcars.jpg" alt="mtcars data" width="50%" />
 <p class="caption">
