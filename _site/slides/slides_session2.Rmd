@@ -63,7 +63,7 @@ countdown(
 
 # Today - Linear Regression and OLS
 
-* I assume you know the theory behind linear regression and ***Ordinary Least Squares (OLS)*** 
+* I assume you know the theory behind linear regression and ***Ordinary Least Squares (OLS)*** (OLS)
 
 * Here, we will focus on estimating and reporting linear models using OLS
 
@@ -123,7 +123,7 @@ acidity_avg_alcohol <- wine %>%
   group_by(`fixed acidity`) %>%
   summarise(avg_alcohol = mean(alcohol))
 
-ggplot(data=acidity_avg_alcohol)+
+g_alco_acid <- ggplot(data=acidity_avg_alcohol)+
   geom_point(mapping=aes(x = `fixed acidity`, 
                          y = avg_alcohol)) +
   labs(title = 'Mean Alcohol by Fixed Acidity',
@@ -263,8 +263,8 @@ What's the predicted level of alcohol for a wine with an acidity of 10? (Using t
 
 $$
 \begin{aligned}
-\widehat {\text{alcohol}} &= 10.73701 + (-0.03775) \cdot 10 \\
-\widehat {\text{alcohol}} &= 10.35951
+\widehat {\text{average math score}} &= 10.73701 + (-0.03775) \cdot 10 \\
+\widehat {\text{average math score}} &= 10.35951
 \end{aligned}
 $$
 
@@ -319,7 +319,6 @@ knitr::include_graphics("images/regression_alco_acid.jpg")
 # Alcohol and Fixed Acidity: Controlling for Density
 
 Let's estimate the following model by OLS:
-
 $\textrm{alcohol}_i = b_0 + b_1 \textrm{fixed acidity}_i  + b_2 \textrm{density}_i + e_i$
 
 
