@@ -14,7 +14,7 @@ Slides | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_sess
 
 [session2_exercises.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session2_exercises.R)
 
-[session2_solutions.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session_1_solutions.R) (Right click + "Save as") Only look at these after doing the exercises
+[session2_solutions.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session2_solutions.R) (Right click + "Save as") Only look at these after doing the exercises
 
   
 ## Preparation
