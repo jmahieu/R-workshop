@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ## Materials
 
-Slides | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session2.pdf)
+Slides | [HTML](https://jmahieu.github.io/R-workshop/slides_session2.html) | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session2.pdf)
 
 [Data](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/winequality-red.csv) (Right click + "Save as") Make sure that you save it as a csv file (with .csv as extension) and not as a text file (.txt)!
 
