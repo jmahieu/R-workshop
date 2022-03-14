@@ -1,4 +1,4 @@
-# This is the script with the task instructions for session 1 of the R Workshop
+# This is the script with the task instructions for session 2 of the R Workshop
 
 # Only run the line of code below if you have not yet installed the tidyverse and
 # stargazer packages (remove the '#' in front to be able to run the code )
