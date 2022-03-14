@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ## Materials
 
-Slides | 
+Slides | [PDF](https://github.com/jmahieu/R-workshop/raw/main/slides/slides_session2.pdf)
 
 [Data](https://raw.githubusercontent.com/jmahieu/R-workshop/main/data/winequality-red.csv) (Right click + "Save as") Make sure that you save it as a csv file (with .csv as extension) and not as a text file (.txt)!
 
@@ -18,4 +18,8 @@ Slides |
 
   
 ## Preparation
-Download the "Red Wine Quality" Data and save it in a local folder (Right click + "Save as"). Make sure that you can import the data into RStudio. For general instructions on how to import csv files, see the "Getting Started" page. Watch this [video](https://video.vu.nl/media/Importing+the+wine+quality+data+into+RStudio/1_ogskw7d1) to see how you can import the wine quality data. If you have troubles opening a new script, go to "File" > "New File"> "R Script". For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
+Download the "Red Wine Quality" Data and save it in a local folder (Right click + "Save as"). 
+
+Make sure that you can import the data into RStudio. For general instructions on how to import csv files, see the "Getting Started" page. Watch this [video](https://video.vu.nl/media/Importing+the+wine+quality+data+into+RStudio/1_ogskw7d1) to see how you can import the wine quality data. If you have troubles opening a new script, go to "File" > "New File"> "R Script". For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
+
+Also download the session2_exercises.R file and save it in the same folder on your computer.
