@@ -16,6 +16,8 @@ Slides | [HTML](https://jmahieu.github.io/R-workshop/slides_session2.html) | [PD
 
 [session2_solutions.R](https://raw.githubusercontent.com/jmahieu/R-workshop/main/session2_solutions.R) (Right click + "Save as") Only look at these after doing the exercises
 
+[recording](https://video.vu.nl/media/R+workshop+-+Session+2/1_ms72vvnc)
+
   
 ## Preparation
 Download the "Red Wine Quality" Data and save it in a local folder (Right click + "Save as"). 

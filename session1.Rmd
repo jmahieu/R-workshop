@@ -22,6 +22,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 [`dplyr` cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
 
+[recording](https://video.vu.nl/media/R+Workshop+-+Session+1/1_w0g55i5n)
+
 
 ## Preparation
 Download the "Red Wine Quality" Data and save it in a local folder (Right click + "Save as"). Make sure that you can import the data into RStudio. For general instructions on how to import csv files, see the "Getting Started" page. Watch this [video](https://video.vu.nl/media/Importing+the+wine+quality+data+into+RStudio/1_ogskw7d1) to see how you can import the wine quality data. If you have troubles opening a new script, go to "File" > "New File"> "R Script". For more details about the dataset, consult the [original publication](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377?via%3Dihub)
